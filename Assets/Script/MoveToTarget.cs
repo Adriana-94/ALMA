@@ -8,12 +8,21 @@ public class MoveToTarget : MonoBehaviour
     public float normalSpeed = 3f; // Velocidad normal de movimiento
     public float acceleratedSpeed = 6f; // Velocidad acelerada
     public float stopDistance = 1.5f; // Distancia mínima para detenerse al avanzar
+    public GameObject dialogPanel; // Panel de diálogo
     private KeyCode forwardKey = KeyCode.W; // Tecla para avanzar hacia el objetivo
     private KeyCode backwardKey = KeyCode.Q; // Tecla para retroceder
     private KeyCode accelerateKey = KeyCode.LeftShift; // Tecla para acelerar el paso
 
     private float currentSpeed; // Velocidad actual del personaje
 
+    void Start()
+    {
+        // Asegurarse de que el panel de diálogo esté desactivado al inicio
+        if (dialogPanel != null)
+        {
+            dialogPanel.SetActive(false);
+        }
+    }
     void Update()
     {
         // Verificar si hay un objetivo
@@ -21,6 +30,16 @@ public class MoveToTarget : MonoBehaviour
         {
             // Calcular la distancia al objetivo
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+            // Mostrar el cuadro de diálogo si el personaje está dentro de la distancia de parada
+            if (distanceToTarget <= stopDistance)
+            {
+                dialogPanel.SetActive(true);
+            }
+            else
+            {
+                dialogPanel.SetActive(false);
+            }
 
             // Establecer la velocidad actual según si se presiona la tecla para acelerar
             currentSpeed = Input.GetKey(accelerateKey) ? acceleratedSpeed : normalSpeed;
