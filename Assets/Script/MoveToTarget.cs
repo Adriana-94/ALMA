@@ -15,16 +15,27 @@ public class MoveToTarget : MonoBehaviour
 
     private float currentSpeed; // Velocidad actual del personaje
 
+    private ParticleSystem polvoPies;
+
+    private ParticleSystem.EmissionModule emisionPolvoPies;
+    private bool tocaSuelo;
+
+
     void Start()
     {
         // Asegurarse de que el panel de diálogo esté desactivado al inicio
         if (dialogPanel != null)
         {
             dialogPanel.SetActive(false);
+
+            emisionPolvoPies = polvoPies.emission;
+
+            
+
         }
     }
     void Update()
-    {
+        {
         // Verificar si hay un objetivo
         if (target != null)
         {
@@ -54,10 +65,28 @@ public class MoveToTarget : MonoBehaviour
             if (Input.GetKey(backwardKey))
             {
                 MoveAwayFromTarget();
+
+
+
+
+            }
+            {
+                CheckpolvoPies();
+                float W = Input.GetKey(forwardKey) ? 1 : 0;
             }
         }
     }
 
+
+    private void CheckpolvoPies() 
+    {
+        if (tocaSuelo && forwardKey != 0)
+        {
+
+            emisionPolvoPies.rateOverTime = 35;
+        }
+        else emisionPolvoPies.rateOverTime = 0;
+    }
     private void MoveTowardsTarget()
     {
         // Calcular la dirección hacia el objetivo
