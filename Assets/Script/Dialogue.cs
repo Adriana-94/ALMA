@@ -29,7 +29,7 @@ public class Dialogue : MonoBehaviour
         // Mostrar el panel de diálogo
         dialogPanel.SetActive(true);
         dialogText.text = message; // Establecer el mensaje
-
+        Debug.Log("Mostrando diálogo: " + message);
         isDialogActive = true;
     }
 
@@ -47,5 +47,11 @@ public class Dialogue : MonoBehaviour
         {
             CloseDialog();
         }
+    }
+
+    private void OnTriggerEnter(Collider other) 
+    { if (other.gameObject.CompareTag("Alma")) 
+        { StartDialog("Hola, bienvenido."); 
+        } 
     }
 }
